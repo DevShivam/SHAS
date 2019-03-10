@@ -12,21 +12,19 @@ void setup() {
 }
  
 
-
 void loop(){
   val = digitalRead(inputPin);                                         // PIR INPUT
   if (val == HIGH) {                                                   // IF INPUT HIGH
     digitalWrite(ledPin, HIGH);                                        // TURNS LED ON !
-    if (pirState == LOW) {                                             // we have just turned on
-    Serial.println("Motion detected!");                                // We only want to print on the output change, not state
-      pirState = HIGH;                                                                         
+    if (pirState == LOW) {                                             // IF STATE VALUE IS LOW
+    Serial.println("Motion detected!");                                // PRINT MOTION DETECTED
+      pirState = HIGH;                                                 // REVERTS BACK TO HIGH STATE                      
     }
   } else {
-    digitalWrite(ledPin, LOW); // turn LED OFF
-    if (pirState == HIGH){
-      // we have just turned of
-      Serial.println("Motion ended!");                                 // We only want to print on the output change, not state
-      pirState = LOW;                                                  //L(PIR) ENDS!
+    digitalWrite(ledPin, LOW);                                        // turn LED OFF
+    if (pirState == HIGH){                                            // IF STATE IS HIGH
+      Serial.println("Motion ended!");                                // PRINT MOTION ENDED
+      pirState = LOW;                                                 // REVERTS BACK TO LOW STATE L(PIR) ENDS!
     }
   }
 }    
