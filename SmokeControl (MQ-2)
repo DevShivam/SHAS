@@ -1,0 +1,34 @@
+int redLed = 12;
+int greenLed = 11;
+int buzzer = 10;
+int smokeA0 = A5;                             
+int sensorThres = 400;                       // Your threshold value
+
+
+void setup() {
+  pinMode(redLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(smokeA0, INPUT);
+  Serial.begin(9600);                         //S(PIR) Ends!
+}
+
+
+void loop() {
+  int analogSensor = analogRead(smokeA0);   //MQ2 INPUT
+  Serial.print("Pin A0: ");
+  Serial.println(analogSensor);               
+  if (analogSensor > sensorThres)           // IF INPUT IS GREATER THAN THRESHOLD
+  {
+    digitalWrite(redLed, HIGH);            // RED LED ON !
+    digitalWrite(greenLed, LOW);           // GREEN LED OFF !
+    tone(buzzer, 1000, 200);               // BUZZER ALERT !
+  }
+  else
+  {
+    digitalWrite(redLed, LOW);            // RED LED OFF
+    digitalWrite(greenLed, HIGH);         // GREEN LED ON
+    noTone(buzzer);                       // BUZZER OFF
+  }
+  delay(100);                            //ADDED DELAY FOR SAFETY.
+}
