@@ -1,0 +1,71 @@
+#include <IRremote.h>
+const int RECV_PIN=11;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+#define IN1 3
+#define IN2 4
+#define IN3 5
+#define IN4 6
+bool i=false;
+bool j=false;
+bool k=false;
+bool l=false;
+bool m=false;
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  irrecv.enableIRIn();
+  irrecv.blink13(true);
+ 
+}
+void loop() 
+{
+  if (irrecv.decode(&results))                   //Recieves Input
+   {
+     Serial.println(results.value,HEX);          //Displays Input int Hexadecimal Format 
+     delay(100);
+     if(results.value==0xFF30CF)
+     {
+        i=!i;
+        digitalWrite(IN1, i);                    //If HexValue matches the Given Value, Light1 ON
+        
+     }
+     else if(results.value==0xFF18E7)
+     {
+        j=!j;
+        digitalWrite(IN2, j);                  //If HexValue matches the Given Value, Light2 ON
+        
+       // delay(200);
+     }
+     else if(results.value==0xFF7A85)
+     {
+        k=!k;
+        digitalWrite(IN3, k);                 //If HexValue matches the Given Value, Light3ON
+        
+       // delay(200);
+     }  
+     else if(results.value==0xFF10EF)
+     {
+        l=!l;
+        digitalWrite(IN4, l);               //If HexValue matches the Given Value, Light4 ON
+        
+       // delay(200);
+     }
+     else if(results.value==0xFF629D)
+     {
+        m=!m;
+        digitalWrite(IN1, m);
+        digitalWrite(IN2, m);
+        digitalWrite(IN3, m);
+        digitalWrite(IN4, m);
+        
+       // delay(200);
+     }
+     irrecv.resume();                             // Receives the next value
+     //delay(100);
+   }
+}
